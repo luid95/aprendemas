@@ -1,5 +1,3 @@
-'use strict'
-
 const { Schema, model } = require('mongoose');
 //extraemos una propiedad de mongoose
 //model: nos sirve para interactuar con la base de datos

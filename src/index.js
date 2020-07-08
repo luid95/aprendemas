@@ -1,9 +1,11 @@
 'use strict'
 
-const mongoose = require('mongoose'); 
-const app = require('./server');
+var mongoose = require('mongoose'); 
+var app = require('./server');
 
+// Le indicamos a Mongoose que haremos la conexión con Promesas
 mongoose.Promise = global.Promise;
+//connecting to db
 const uri = 'mongodb://127.0.0.1:27017/aprendemas';
 
 mongoose.connect(uri, {
