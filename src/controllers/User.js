@@ -95,4 +95,77 @@ ctrlu.loginUser = (req, res) => {
     });
 };
 
+//funcion para actualizar datos de un usuario
+ctrlu.updateUser = (req, res) => {
+    
+    //Obtenemos el id del usuario por medio de la url  con el metodo 'params'
+    const userId = req.params.id;
+    const update = req.body;
+
+    User.findByIdAndUpdate(userId, update, (err, userUpdate) => {
+        if(err){
+            
+            res.status(500).send({ message: 'Error al actualizar el usuario'});
+        }else{
+
+            if(!userUpdate){
+
+                res.status(404).send({ message: 'No se ha podido actualizar el usuario'});
+            }else{
+                //enviamos los datos del usuario que se actualizo
+                res.status(200).send({ user: userUpdate});
+            }
+        }
+    });
+
+    
+};
+
+//funcion de prueba
+ctrlu.uploadImage = (req, res) => {
+    
+    //Obtenemos el id del usuario por medio de la url  con el metodo 'params'
+    const userId = req.params.id;
+
+    //comprobamos si nuestra variable global files contiene algo
+    if(req.files){
+
+        
+        const file_path = req.files.image.path;
+        const file_split = file_path.split('\\');
+        const file_name = file_split[3]; // para obtener el nombre de la imagen
+
+        //si requerimos el obtener la extension de la imagen 
+        const ext_split = file_name.split('\.');
+        const file_ext = ext_split[1];
+
+        if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'gif'){
+
+            User.findByIdAndUpdate(userId, { image: file_name }, (err, userUpdated) => {
+
+                if(err){
+            
+                    res.status(500).send({ message: 'Error al actualizar el usuario'});
+                }else{
+        
+                    if(!userUpdated){
+        
+                        res.status(404).send({ message: 'No se ha podido actualizar el usuario'});
+                    }else{
+                        //enviamos los datos del usuario que se actualizo
+                        res.status(200).send({ user: userUpdated});
+                    }
+                }
+            });
+        }else{
+            res.status(200).send({ message: 'Extension del archivo no valida'});
+        }
+        
+
+    }else{
+
+        res.status(200).send({ message: 'No has subido ninguna imagen...'});
+    }
+};
+
 module.exports = ctrlu;

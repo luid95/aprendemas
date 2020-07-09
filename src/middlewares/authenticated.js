@@ -27,7 +27,7 @@ compare.ensureAuth = (req, res, next) => {
         }
 
     } catch (ex) {
-        console.log(ex);
+        //console.log(ex);
         res.status(404).send({message: 'Token no valido'});
     }
 
