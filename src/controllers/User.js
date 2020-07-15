@@ -1,6 +1,8 @@
 'use strict'
+const fs = require('fs');
+const path = require('path');
 var bcrypt = require('bcrypt-nodejs');
-var User = require('../models/User');
+var User = require('../models/User');//Se carga el modelo
 var jwt = require('../services/jwt');
 
 var ctrlu = {};
@@ -121,7 +123,7 @@ ctrlu.updateUser = (req, res) => {
     
 };
 
-//funcion de prueba
+//funcion para actualizar la imagen del usuario
 ctrlu.uploadImage = (req, res) => {
     
     //Obtenemos el id del usuario por medio de la url  con el metodo 'params'
@@ -153,7 +155,10 @@ ctrlu.uploadImage = (req, res) => {
                         res.status(404).send({ message: 'No se ha podido actualizar el usuario'});
                     }else{
                         //enviamos los datos del usuario que se actualizo
-                        res.status(200).send({ user: userUpdated});
+                        res.status(200).send({
+                            image: file_name,
+                            user: userUpdated
+                        });
                     }
                 }
             });
@@ -166,6 +171,23 @@ ctrlu.uploadImage = (req, res) => {
 
         res.status(200).send({ message: 'No has subido ninguna imagen...'});
     }
+};
+
+//funcion de prueba
+ctrlu.getImageFile = (req, res) => {
+    
+    const imageFile = req.params.imageFile;
+    const path_file = './src/uploads/users/'+ imageFile;
+
+    fs.exists(path_file, (exists) => {
+        if(exists){
+            
+            res.sendFile(path.resolve(path_file));
+        }else{
+            
+            res.status(200).send({ message: 'No existe la imagen...'});
+        }
+    });
 };
 
 module.exports = ctrlu;

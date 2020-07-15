@@ -14,5 +14,6 @@ router.post('/register', userController.addUser);
 router.post('/login', userController.loginUser);
 router.put('/update-user/:id', md_auth.ensureAuth, userController.updateUser);//necesitamos la autenticacion para validar la actualizacion
 router.post('/upload-image-user/:id', [md_auth.ensureAuth, md_upload], userController.uploadImage);//actualizar la imagen del usuario
+router.get('/get-image-user/:imageFile', userController.getImageFile);//
 
 module.exports = router;
