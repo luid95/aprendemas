@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
       });
     },
   });
-var mul_upload = multer({dest: 'src/uploads/users',storage});
+var mul_upload = multer({dest: './src/uploads/users',storage});
 
 router.get('/pruebas',md_auth.ensureAuth, userController.pruebas);
 router.post('/register', userController.addUser);
