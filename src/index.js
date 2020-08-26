@@ -7,7 +7,7 @@ var app = require('./server');
 mongoose.Promise = global.Promise;
 //connecting to db
 //const uri = 'mongodb://127.0.0.1:27017/aprendemas';
-const uri = 'mongodb+srv://mongoluis:mongoluis123@cluster0.tmt8h.mongodb.net/<dbname>?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://mongoluis:mongoluis123@cluster0.tmt8h.mongodb.net/aprendemas?retryWrites=true&w=majority';
 
 mongoose.connect(uri, {
     useNewUrlParser: true,
