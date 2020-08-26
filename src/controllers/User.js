@@ -37,24 +37,24 @@ ctrlu.addUser = (req, res) => {
                 //Guardar el usuario
                 user.save((err, userStored) => {
                     if(err){
-                        res.status(500).send({mesage: 'Error al guardar el usuario'})
+                        res.status(500).send({message: 'Error al guardar el usuario'});
                     }else{
 
                         if(!userStored){
-                            res.status(404).send({mesage: 'No se ha registrado el usuario'})
+                            res.status(404).send({message: 'No se ha registrado el usuario'});
                         }else{
-                            res.status(200).send({mesageuser: userStored})
+                            res.status(200).send({user: userStored});
                         }
                     }
                 });
 
             }else{
-                res.status(200).send({mesage: 'Rellena todos los campos'})
+                res.status(200).send({message: 'Rellena todos los campos'});
             }
             
         });
     }else{
-        res.status(500).send({mesage: 'Introduce la password'})
+        res.status(500).send({message: 'Introduce la password'});
     }
     
 };
@@ -63,16 +63,18 @@ ctrlu.addUser = (req, res) => {
 ctrlu.loginUser = (req, res) => {   
     var params = req.body;
     
+    //username proviene del front
+    //de AuthProvider.js
     var email = params.email;
     var password = params.password;
 
     User.findOne({email: email.toLowerCase()}, (err, user) =>{
         if(err){
-            res.status(500).send({mesage: 'Error en la peticion'})
+            res.status(500).send({message: 'Error en la peticion'});
         }else{
             //vamos a comprobar si el usuario existe o no
             if(!user){
-                res.status(404).send({mesage: 'El usuario no existe'})
+                res.status(404).send({message: 'El usuario no existe'});
             }else{
                 //vamos a comprobar la password
                 bcrypt.compare(password, user.password, (err, check) => {
@@ -80,16 +82,16 @@ ctrlu.loginUser = (req, res) => {
                         //devolver los datos del usuario logueado
                         if(params.gethash){
                             //devolver un token jwt
-                            res.status(200).send({
+                            res.status(200).json({
                                 token: jwt.createToken(user)
                             });
 
                         }else{
-                            res.status(200).send({ user })
+                            res.status(200).send({ user });
                         }
 
                     }else{
-                        res.status(404).send({mesage: 'El usuario no ha podido loguearse'})
+                        res.status(404).send({message: 'El usuario no ha podido loguearse'});
                     }
                 });
             }
@@ -128,20 +130,22 @@ ctrlu.uploadImage = (req, res) => {
     
     //Obtenemos el id del usuario por medio de la url  con el metodo 'params'
     const userId = req.params.id;
+    console.log("id user "+userId);
 
     //comprobamos si nuestra variable global files contiene algo
-    if(req.files){
-
-        
-        const file_path = req.files.image.path;
+    if(req.file){
+ 
+        const file_path = req.file.path;
+        console.log("path " + file_path);
         const file_split = file_path.split('\\');
         const file_name = file_split[3]; // para obtener el nombre de la imagen
+        
 
         //si requerimos el obtener la extension de la imagen 
         const ext_split = file_name.split('\.');
         const file_ext = ext_split[1];
 
-        if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'gif'){
+        if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'gif' || file_ext == 'jfif'){
 
             User.findByIdAndUpdate(userId, { image: file_name }, (err, userUpdated) => {
 
@@ -156,7 +160,7 @@ ctrlu.uploadImage = (req, res) => {
                     }else{
                         //enviamos los datos del usuario que se actualizo
                         res.status(200).send({
-                            image: file_name,
+                            
                             user: userUpdated
                         });
                     }

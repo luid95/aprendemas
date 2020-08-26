@@ -157,10 +157,10 @@ ctrlt.uploadFile = (req, res) => {
     const taskId = req.params.id;
 
     //comprobamos si nuestra variable global files contiene algo
-    if(req.files){
+    if(req.file){
 
         
-        const file_path = req.files.files.path;
+        const file_path = req.file.path;
         const file_split = file_path.split('\\');
         const file_name = file_split[3]; // para obtener el nombre del archivo
 

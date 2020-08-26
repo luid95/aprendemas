@@ -11,7 +11,7 @@ var subject_routes = require('./routes/Subject');
 var task_routes = require('./routes/Task');
 
 //configuracion de puerto
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 
 //convertir en json los datos recibidos mediante las peticiones http
 //Parsear el body usando body parser
@@ -19,22 +19,26 @@ app.use(bodyParser.json()); // body en formato json
 app.use(bodyParser.urlencoded({ extended: false })); //body formulario
 //debe ejecutarse antes de las rutas
 
+//configuracion de cabeceras http
+app.use( (req, res, next) => {
+
+  res.header('Access-Control-Allow-Origin', '*');
+
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+
+  app.options('*', (req, res) => {
+      // allowed XHR methods  
+      res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
+      res.send();
+  });
+});
+
 //rutas base
 app.use('/api', user_routes);
 app.use('/api', school_routes);
 app.use('/api', grade_routes);
 app.use('/api', subject_routes);
 app.use('/api', task_routes);
-
-//configuracion de cabeceras http
-app.use( (req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-
-    next();
-});
-
 
 module.exports = app;

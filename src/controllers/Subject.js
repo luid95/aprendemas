@@ -159,10 +159,10 @@ ctrlsj.uploadImage = (req, res) => {
     const subjectId = req.params.id;
 
     //comprobamos si nuestra variable global files contiene algo
-    if(req.files){
+    if(req.file){
 
         
-        const file_path = req.files.image.path;
+        const file_path = req.file.path;
         const file_split = file_path.split('\\');
         const file_name = file_split[3]; // para obtener el nombre de la imagen
 
@@ -170,7 +170,7 @@ ctrlsj.uploadImage = (req, res) => {
         const ext_split = file_name.split('\.');
         const file_ext = ext_split[1];
 
-        if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'gif'){
+        if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'gif' || file_ext == 'jfif'){
 
             Subject.findByIdAndUpdate(subjectId, { image: file_name }, (err, subjectUpdated) => {
 
