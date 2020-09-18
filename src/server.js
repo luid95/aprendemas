@@ -3,6 +3,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
+
 //Carga de rutas
 var user_routes = require('./routes/User');
 var school_routes = require('./routes/School');
@@ -23,15 +24,13 @@ app.use(bodyParser.urlencoded({ extended: false })); //body formulario
 app.use( (req, res, next) => {
 
   res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-API-KEY, Access-Control-Allow-Request-Method');
+  // allowed XHR methods
+  res.header('Access-Control-Expose-Headers', 'X-Total-Count');  
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+  res.header('Allow', 'GET, PUT, POST, DELETE, OPTIONS');
 
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
-
-  app.options('*', (req, res) => {
-      // allowed XHR methods  
-      res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
-      res.send();
-  });
 });
 
 //rutas base

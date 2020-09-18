@@ -41,7 +41,7 @@ ctrls.getSchools = (req, res) => {
         var page = 1;
     }
     
-    const itemsPerPage = 3;
+    const itemsPerPage = 5;
 
     School.find().sort('name').paginate(page, itemsPerPage, (err, schools, total) => {
 
@@ -52,8 +52,10 @@ ctrls.getSchools = (req, res) => {
                 res.status(404).send({message: 'No hay escuelas'});
             }else{
                 
+                res.set("x-total-count", total);
                 return res.status(200).send({
                     pages: total,
+                    items : itemsPerPage,
                     schools: schools
                 });
             }
@@ -70,6 +72,7 @@ ctrls.addSchool = (req, res) => {
     
 
     school.name = params.name;
+    school.type = params.type;
     school.description = params.description;
     school.address = params.address;
     school.shift = params.shift;

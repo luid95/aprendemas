@@ -8,12 +8,12 @@ var compare = {};
 
 //funcion comprobar los datos del token
 compare.ensureAuth = (req, res, next) => {
-    
+
     if(!req.headers.authorization){
 
         return res.status(403).send({message: 'La peticion no tiene la cabecera de autenticacion'});
     }
-
+    
     //vamos a quitar las posibles comillas que pueda tener el token
     var token = req.headers.authorization.replace(/['"]+/g, '');
 

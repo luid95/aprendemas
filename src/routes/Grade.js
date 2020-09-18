@@ -24,9 +24,9 @@ const storage = multer.diskStorage({
   });
 var mul_upload = multer({dest: './src/uploads/grades',storage});
 
-router.get('/grade/:id', md_auth.ensureAuth , gradeController.getGrade);
+router.get('/grade/:id', gradeController.getGrade);
 router.post('/grade', md_auth.ensureAuth , gradeController.addGrade);
-router.get('/grades/:school?', md_auth.ensureAuth , gradeController.getGrades);
+router.get('/grades/:school?', gradeController.getGrades);
 router.put('/grade/:id', md_auth.ensureAuth , gradeController.updateGrade);
 router.delete('/grade/:id', md_auth.ensureAuth , gradeController.deleteGrade);
 router.post('/upload-image-grade/:id', [md_auth.ensureAuth, mul_upload.single('image')], gradeController.uploadImage);//actualizar la imagen del usuario

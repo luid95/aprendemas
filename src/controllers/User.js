@@ -24,11 +24,11 @@ ctrlu.addUser = (req, res) => {
     user.name = params.name;
     user.surname = params.surname;
     user.email = params.email;
-    user.role = 'ROLE_USER';
+    user.role = 'ROLE_ADMIN';
     user.image = 'null';
 
     if(params.password){
-        //Encriptar la password y guardar los datos
+        //Encriptar la password 
         bcrypt.hash(params.password, null, null, (err, hash) =>{
             user.password = hash;
             console.log(user.password);
@@ -63,8 +63,6 @@ ctrlu.addUser = (req, res) => {
 ctrlu.loginUser = (req, res) => {   
     var params = req.body;
     
-    //username proviene del front
-    //de AuthProvider.js
     var email = params.email;
     var password = params.password;
 

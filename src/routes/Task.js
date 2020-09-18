@@ -26,7 +26,7 @@ var mul_upload = multer({dest: './src/uploads/taskss',storage});
 
 router.get('/task/:id', md_auth.ensureAuth , taskController.getTask);
 router.post('/task', md_auth.ensureAuth , taskController.addTask);
-router.get('/tasks/:subject?', md_auth.ensureAuth , taskController.getTasks);
+router.get('/tasks/:subject?', taskController.getTasks);
 router.put('/task/:id', md_auth.ensureAuth , taskController.updateTask);
 router.delete('/task/:id', md_auth.ensureAuth , taskController.deleteTask);
 router.post('/upload-file-task/:id', [md_auth.ensureAuth, mul_upload.single('files')], taskController.uploadFile);//actualizar el archivo de la tarea

@@ -24,9 +24,9 @@ const storage = multer.diskStorage({
   });
 var mul_upload = multer({dest: './src/uploads/subjects',storage});
 
-router.get('/subject/:id', md_auth.ensureAuth , subjectController.getSubject);
+router.get('/subject/:id' , subjectController.getSubject);
 router.post('/subject', md_auth.ensureAuth , subjectController.addSubject);
-router.get('/subjects/:grade?', md_auth.ensureAuth , subjectController.getSubjects);
+router.get('/subjects/:grade?' , subjectController.getSubjects);
 router.put('/subject/:id', md_auth.ensureAuth , subjectController.updateSubject);
 router.delete('/subject/:id', md_auth.ensureAuth , subjectController.deleteSubject);
 router.post('/upload-image-subject/:id', [md_auth.ensureAuth, mul_upload.single('image')], subjectController.uploadImage);//actualizar la imagen del usuario

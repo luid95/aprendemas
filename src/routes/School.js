@@ -24,9 +24,10 @@ const storage = multer.diskStorage({
   });
 var mul_upload = multer({dest: './src/uploads/schools',storage});
 
-router.get('/school/:id', md_auth.ensureAuth, schoolController.getSchool);
+router.get('/school/:id', schoolController.getSchool);
 router.post('/school', md_auth.ensureAuth, schoolController.addSchool);
 router.get('/schools/:page?', md_auth.ensureAuth, schoolController.getSchools);
+router.get('/list-schools/:page?', schoolController.getSchools);//Listado de escuelas sin token
 router.put('/school/:id', md_auth.ensureAuth, schoolController.updateSchool);
 router.delete('/school/:id', md_auth.ensureAuth, schoolController.deleteSchool);
 router.post('/upload-image-school/:id', [md_auth.ensureAuth, mul_upload.single('image')], schoolController.uploadImage);//actualizar la imagen del usuario

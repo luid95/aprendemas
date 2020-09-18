@@ -5,6 +5,7 @@ const { Schema, model } = require('mongoose');
 
 const schoolSchema = new Schema({
     name: String,
+    type: String,
     description: String,
     address: String,
     shift: String,
